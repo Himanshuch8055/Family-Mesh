@@ -29,21 +29,10 @@ const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { theme, toggleTheme } = useTheme();
   const { user, logout } = useAuth();
-//   const navigate = useNavigate();
   const router = useRouter();
   const pathname = usePathname();
 
   const navigation = [
-    // {
-    //   name: 'Home',
-    //   href: '/',
-    //   icon: <HomeIcon className="w-5 h-5" />
-    // },
-    // {
-    //   name: 'Surname Origin',
-    //   href: '/search',
-    //   icon: <MagnifyingGlassIcon className="w-5 h-5" />
-    // },
     {
       name: "Family Tree",
       href: "/tree",

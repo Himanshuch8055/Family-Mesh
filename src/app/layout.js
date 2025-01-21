@@ -1,7 +1,7 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-
 import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 import {ThemeProvider} from "@/context/ThemeContext";
 import { AuthProvider } from "@/context/AuthContext";
 import { NotificationProvider } from "@/context/NotificationContext";
@@ -24,16 +24,36 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              try {
+                let theme = localStorage.getItem('theme')
+                if (!theme) {
+                  theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+                }
+                document.documentElement.classList.add(theme)
+              } catch (e) {}
+            `,
+          }}
+        />
+      </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased relative min-h-screen flex flex-col`}
       >
         <ThemeProvider>
           <NotificationProvider>
             <AuthProvider>
               <BackgroundPattern />
-              <Header />
-              {children}
+              <div className="flex-1 flex flex-col relative z-10">
+                <Header />
+                <main className="flex-1">
+                  {children}
+                </main>
+                <Footer />
+              </div>
             </AuthProvider>
           </NotificationProvider>
         </ThemeProvider>
